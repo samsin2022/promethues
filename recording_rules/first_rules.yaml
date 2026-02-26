@@ -18,4 +18,4 @@ groups:
 - name: node_alert
   rules:
   - alert: node_experter_status
-    expr: up{job="node_exporter"} == 0
+    expr: (up{job="node_exporter"} or up{job="Docker_Node_exporter"}) == 0
