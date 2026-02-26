@@ -17,5 +17,5 @@ groups:
 
 - name: node_alert
   rules:
-  - record: node_experter_status
+  - alert: node_experter_status
     expr: up{job="node_exporter"} == 0
