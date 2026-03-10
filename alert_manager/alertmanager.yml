@@ -3,7 +3,7 @@ route:
 
 receivers:
 - name: admin
-  email_config:
+  email_configs:
   - to: "sin.som2022@gmail.com"
     from: "sin.som2019@gmail.com"
     smarthost: smtp.gmail.com:587
