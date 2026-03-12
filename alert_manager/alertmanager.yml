@@ -1,12 +1,24 @@
+global:
+  smtp_from: "sin.som2019@gmail.com"
+  smtp_smarthost: smtp.gmail.com:587
+  smtp_auth_username: "sin.som2019@gmail.com"
+  smtp_auth_identity: "sin.som2019@gmail.com"
+  asmtp_uth_password: "16-digit password"
+
 route:
+  # Default Receiver, Fallback Receiver
   receiver: admin
+  routes:
+  - match_re:
+      app_type: (linux|windows)
+    # Fallback Receiver for OS Alerts
+    receiver: abc_sol-admin
 
 receivers:
 - name: admin
   email_configs:
   - to: "sin.som2022@gmail.com"
-    from: "sin.som2019@gmail.com"
-    smarthost: smtp.gmail.com:587
-    auth_username: "sin.som2019@gmail.com"
-    auth_identity: "sin.som2019@gmail.com"
-    auth_password: "16-digit password"
+
+- name: abc_sol-admin
+  email_configs:
+  - to: "samsin.cambo@gmail.com"
