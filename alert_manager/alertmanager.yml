@@ -1,70 +1,73 @@
 global:
   smtp_from: "sin.som2019@gmail.com"
-  smtp_smarthost: smtp.gmail.com:587
+  smtp_smarthost: "smtp.gmail.com:587"
   smtp_auth_username: "sin.som2019@gmail.com"
   smtp_auth_identity: "sin.som2019@gmail.com"
-  asmtp_auth_password: "16-digit password"
+  # FIXED: Removed the extra 'a' from smtp
+  smtp_auth_password: "16-digit password"
 
 route:
-  # Default Receiver, Fallback Receiver
+  # Added grouping to prevent notification flooding
+  group_by: [ 'alertname', 'app_type', 'severity' ]
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+
+  # Default Receiver
   receiver: admin
+
   routes:
+  # --- OS ALERTS (Linux/Windows) ---
   - match_re:
       app_type: (linux|windows)
-    # Fallback Receiver for OS Alerts
     receiver: abc_sol-admin
     routes:
     - match:
         app_type: linux
-      #Fallback receiver for Linux Alerts
       receiver: abc_sol_linux-admin
       routes:
       - match:
-          serverity: critical
+          severity: critical # FIXED: serverity -> severity
         receiver: abc_sol_linux-manager
       - match:
-          serverity: warning
+          severity: warning # FIXED: serverity -> severity
         receiver: abc_sol_linux-teamlead
 
     - match:
         app_type: windows
-      # Fallback receiver for Windows Alerts
       receiver: abc_sol_windows-admin
       routes:
       - match:
-          serverity: critical
+          severity: critical
         receiver: abc_sol_windows-manager
       - match:
-          serverity: warning
+          severity: warning
         receiver: abc_sol_windows-teamlead
 
-  # Route for Application Alerts
+  # --- APPLICATION ALERTS (Python/Go) ---
   - match_re:
       app_type: (python|go)
-    # Fallback Receiver for Application Alerts
     receiver: xyz_sol-admin
     routes:
     - match:
         app_type: python
-      #Fallback receiver for Linux Alerts
       receiver: xyz_sol_python-admin
       routes:
       - match:
-          serverity: critical
+          severity: critical
         receiver: xyz_sol_python-manager
       - match:
-          serverity: warning
+          severity: warning
         receiver: xyz_sol_python-teamlead
     - match:
         app_type: go
-      #Fallback receiver for Linux Alerts
       receiver: xyz_sol_go-admin
       routes:
       - match:
-          serverity: critical
+          severity: critical
         receiver: xyz_sol_go-manager
       - match:
-          serverity: warning
+          severity: warning
         receiver: xyz_sol_go-teamlead
 
 receivers:
@@ -78,7 +81,7 @@ receivers:
 
 - name: abc_sol_linux-admin
   email_configs:
-  - to: "linux_amdin@demoemail.site"
+  - to: "linux_admin@demoemail.site" # FIXED: amdin -> admin
 
 - name: abc_sol_linux-manager
   email_configs:
