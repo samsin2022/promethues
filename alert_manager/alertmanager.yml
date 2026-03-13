@@ -13,12 +13,117 @@ route:
       app_type: (linux|windows)
     # Fallback Receiver for OS Alerts
     receiver: abc_sol-admin
+    routes:
+    - match:
+        app_type: linux
+      #Fallback receiver for Linux Alerts
+      receiver: abc_sol_linux-admin
+      routes:
+      - match:
+          serverity: critical
+        receiver: abc_sol_linux-manager
+      - match:
+          serverity: warning
+        receiver: abc_sol_linux-teamlead
+
+    - match:
+        app_type: windows
+      # Fallback receiver for Windows Alerts
+      receiver: abc_sol_windows-admin
+      routes:
+      - match:
+          serverity: critical
+        receiver: abc_sol_windows-manager
+      - match:
+          serverity: warning
+        receiver: abc_sol_windows-teamlead
+
+  # Route for Application Alerts
+  - match_re:
+      app_type: (python|go)
+    # Fallback Receiver for Application Alerts
+    receiver: xyz_sol-admin
+    routes:
+    - match:
+        app_type: python
+      #Fallback receiver for Linux Alerts
+      receiver: xyz_sol_python-admin
+      routes:
+      - match:
+          serverity: critical
+        receiver: xyz_sol_python-manager
+      - match:
+          serverity: warning
+        receiver: xyz_sol_python-teamlead
+    - match:
+        app_type: go
+      #Fallback receiver for Linux Alerts
+      receiver: xyz_sol_go-admin
+      routes:
+      - match:
+          serverity: critical
+        receiver: xyz_sol_go-manager
+      - match:
+          serverity: warning
+        receiver: xyz_sol_go-teamlead
 
 receivers:
 - name: admin
   email_configs:
-  - to: "sin.som2022@gmail.com"
+  - to: "admin@demoemail.site"
 
 - name: abc_sol-admin
   email_configs:
-  - to: "samsin.cambo@gmail.com"
+  - to: "sol_admin@demoemail.site"
+
+- name: abc_sol_linux-admin
+  email_configs:
+  - to: "linux_amdin@demoemail.site"
+
+- name: abc_sol_linux-manager
+  email_configs:
+  - to: "linux_manager@demoemail.site"
+
+- name: abc_sol_linux-teamlead
+  email_configs:
+  - to: "teamlead_admin@demoemail.site"
+
+- name: abc_sol_windows-admin
+  email_configs:
+  - to: "windows_admin@demoemail.site"
+
+- name: abc_sol_windows-manager
+  email_configs:
+  - to: "windows_manager@demoemail.site"
+
+- name: abc_sol_windows-teamlead
+  email_configs:
+  - to: "windows_teamlead@demoemail.site"
+
+- name: xyz_sol-admin
+  email_configs:
+  - to: "admin@demoemail.site"
+
+- name: xyz_sol_python-admin
+  email_configs:
+  - to: "python_admin@demoemail.site"
+
+- name: xyz_sol_python-manager
+  email_configs:
+  - to: "python_manager@demoemail.site"
+
+- name: xyz_sol_python-teamlead
+  email_configs:
+  - to: "python_teamlead@demoemail.site"
+
+- name: xyz_sol_go-admin
+  email_configs:
+  - to: "go_admin@demoemail.site"
+
+- name: xyz_sol_go-manager
+  email_configs:
+  - to: "go_manager@demoemail.site"
+
+- name: xyz_sol_go-teamlead
+  email_configs:
+  - to: "go_teamlead@demoemail.site"
