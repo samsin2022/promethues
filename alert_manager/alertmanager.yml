@@ -3,7 +3,7 @@ global:
   smtp_smarthost: smtp.gmail.com:587
   smtp_auth_username: "sin.som2019@gmail.com"
   smtp_auth_identity: "sin.som2019@gmail.com"
-  asmtp_uth_password: "16-digit password"
+  asmtp_auth_password: "16-digit password"
 
 route:
   # Default Receiver, Fallback Receiver
