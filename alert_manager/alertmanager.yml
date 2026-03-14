@@ -21,6 +21,7 @@ route:
   - match_re:
       app_type: (linux|windows)
     receiver: abc_sol-admin
+    group_by: [ "category" ]
     routes:
     - match:
         app_type: linux
